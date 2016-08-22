@@ -20,7 +20,7 @@ public class ReportingServiceTest {
 
   @Test
   public void testGenerate() throws IOException {
-    final byte[] pdf = reportingService.generate("/report/layout.html");
+    final byte[] pdf = reportingService.generate("/report", "layout.html");
     Files.write(pdf, testFile());
     assertThat(pdf).isNotEmpty();
   }
