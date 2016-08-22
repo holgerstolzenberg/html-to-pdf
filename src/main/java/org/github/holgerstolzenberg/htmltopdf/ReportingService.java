@@ -1,13 +1,12 @@
 package org.github.holgerstolzenberg.htmltopdf;
 
-import com.google.common.io.ByteStreams;
 import com.itextpdf.text.DocumentException;
+import com.sun.istack.internal.NotNull;
 import org.slf4j.Logger;
 import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-import org.xhtmlrenderer.resource.XMLResource;
 
+import javax.annotation.Nonnull;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,18 +14,21 @@ import java.util.concurrent.TimeUnit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.google.common.io.ByteStreams.*;
-import static com.google.common.net.HttpHeaders.LOCATION;
+import static com.google.common.io.ByteStreams.toByteArray;
 import static java.lang.System.nanoTime;
 import static java.time.ZonedDateTime.now;
 import static org.slf4j.LoggerFactory.getLogger;
 
 final class ReportingService {
   private static final Logger LOG = getLogger(ReportingService.class);
+  private static final String SEPARATOR = "/";
 
-  byte[] generate(final String base, final String file) {
-    checkArgument(!isNullOrEmpty(base));
-    checkArgument(!isNullOrEmpty(file));
+  @Nonnull
+  byte[] generate(@NotNull final String template) {
+    checkArgument(!isNullOrEmpty(template));
+
+    final String base = base(template);
+    final String file = file(template);
 
     long start = nanoTime();
     LOG.debug("Launching report generation: {}", now());
@@ -50,6 +52,20 @@ final class ReportingService {
     }
   }
 
+  private String base(final String template) {
+    if (!template.contains(SEPARATOR)) {
+      return template;
+    }
+    return template.substring(0, template.lastIndexOf(SEPARATOR) + 1);
+  }
+
+  private String file(final String template) {
+    if (!template.contains(SEPARATOR)) {
+      return template;
+    }
+    return template.substring(template.lastIndexOf(SEPARATOR));
+  }
+
   private void render(ByteArrayOutputStream os, String content, String baseUrl) throws DocumentException, IOException {
     final ITextRenderer renderer = new ITextRenderer();
     renderer.setDocumentFromString(content, baseUrl);
@@ -58,7 +74,7 @@ final class ReportingService {
   }
 
   private String getBaseUrl(final String base) throws IOException {
-    return new ClassPathResource(base + "/").getURL().toExternalForm();
+    return new ClassPathResource(base + SEPARATOR).getURL().toExternalForm();
   }
 
   private String getContent(final String base, final String file) throws IOException {
@@ -66,11 +82,10 @@ final class ReportingService {
   }
 
   private InputStream inputStream(String base, String name) {
-    return ReportingService.class.getResourceAsStream(base + "/" + name);
+    return ReportingService.class.getResourceAsStream(base + name);
   }
 
   private long generationTimeMs(long start) {
     return TimeUnit.NANOSECONDS.toMillis(nanoTime() - start);
   }
-
 }
