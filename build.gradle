@@ -13,12 +13,12 @@ repositories {
 }
 
 dependencies {
-  compile 'org.slf4j:slf4j-api:1.7.21'
-  compile 'ch.qos.logback:logback-classic:1.1.7'
-  compile 'org.xhtmlrenderer:flying-saucer-pdf-itext5:9.0.9'
-  compile 'com.google.guava:guava:19.0'
-  compile 'org.springframework:spring-core:4.3.2.RELEASE'
-  compile 'com.google.code.findbugs:jsr305:3.0.1'
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  compile "ch.qos.logback:logback-classic:$logbackVersion"
+  compile "org.xhtmlrenderer:flying-saucer-pdf-itext5:$flyingSaucerVersion"
+  compile "com.google.guava:guava:$guavaVersion"
+  compile "org.springframework:spring-core:$springVersion"
+  compile "com.google.code.findbugs:jsr305:$jsr305Version"
 
   testCompile 'org.testng:testng:6.9.10'
   testCompile 'org.assertj:assertj-core:3.5.2'
