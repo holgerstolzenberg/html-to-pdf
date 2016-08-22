@@ -2,10 +2,15 @@
 
 * { font-family: Helvetica, Arial; }
 
+div {
+  margin: 0;
+}
+
+div.with-break {
+  page-break-before: always;
+}
+
 h1 { color: #00f; }
+h2 { color: #00f; }
 
 p { line-height: 15px; font-size: 12px; margin-bottom: 30px; }
-
-div#dataPage { page-break-before: always; }
-
-div#lastPage { page-break-before: always; }
