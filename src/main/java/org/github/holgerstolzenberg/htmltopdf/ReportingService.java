@@ -36,7 +36,7 @@ final class ReportingService {
       final Document doc = XMLResource.load(ReportingService.class.getResourceAsStream(uri)).getDocument();
 
       final ITextRenderer renderer = new ITextRenderer();
-      renderer.setDocument(doc, uri);
+      renderer.setDocument(doc, null);
 
       final ClasspathUserAgentCallback classpathUserAgentCallback = new ClasspathUserAgentCallback(renderer.getOutputDevice(), renderer.getSharedContext());
       renderer.getSharedContext().setUserAgentCallback(classpathUserAgentCallback);
@@ -52,12 +52,6 @@ final class ReportingService {
 
   private long generationTimeMs(long start) {
     return TimeUnit.NANOSECONDS.toMillis(nanoTime() - start);
-  }
-
-  private class PdfGenerationException extends RuntimeException {
-    private PdfGenerationException(Throwable cause) {
-      super(cause);
-    }
   }
 
 }
