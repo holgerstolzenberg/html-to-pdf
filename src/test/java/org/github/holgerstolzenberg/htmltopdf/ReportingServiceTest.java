@@ -10,23 +10,23 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class ReportTest {
-  private Report report;
+public class ReportingServiceTest {
+  private ReportingService reportingService;
 
   @BeforeMethod
   public void setUp() throws Exception {
-    report = new Report();
+    reportingService = new ReportingService();
   }
 
   @Test
   public void testGenerate() throws IOException {
-    final byte[] pdf = report.generate("/report.html");
+    final byte[] pdf = reportingService.generate("/report.html");
     Files.write(pdf, testFile());
     assertThat(pdf).isNotEmpty();
   }
 
   private File testFile() {
-    return new File(userHome() + File.separator + "report.pdf");
+    return new File(userHome() + File.separator + "reportingService.pdf");
   }
 
   private String userHome() {

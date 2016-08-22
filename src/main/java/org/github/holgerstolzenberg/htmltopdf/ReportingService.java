@@ -16,8 +16,8 @@ import static java.lang.System.nanoTime;
 import static java.time.ZonedDateTime.now;
 import static org.slf4j.LoggerFactory.getLogger;
 
-final class Report {
-  private static final Logger LOG = getLogger(Report.class);
+final class ReportingService {
+  private static final Logger LOG = getLogger(ReportingService.class);
 
   byte[] generate(final String uri) {
     checkArgument(!isNullOrEmpty(uri));
@@ -33,7 +33,7 @@ final class Report {
 
   private byte[] doGenerate(final String uri) {
     try (final ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-      final Document doc = XMLResource.load(Report.class.getResourceAsStream(uri)).getDocument();
+      final Document doc = XMLResource.load(ReportingService.class.getResourceAsStream(uri)).getDocument();
 
       ITextRenderer renderer = new ITextRenderer();
       renderer.setDocument(doc, uri);
