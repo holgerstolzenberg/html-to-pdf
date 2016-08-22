@@ -20,13 +20,13 @@ public class ReportingServiceTest {
 
   @Test
   public void testGenerate() throws IOException {
-    final byte[] pdf = reportingService.generate("/report.html");
+    final byte[] pdf = reportingService.generate("/report/layout.html");
     Files.write(pdf, testFile());
     assertThat(pdf).isNotEmpty();
   }
 
   private File testFile() {
-    return new File(userHome() + File.separator + "reportingService.pdf");
+    return new File(userHome() + File.separator + "report.pdf");
   }
 
   private String userHome() {
